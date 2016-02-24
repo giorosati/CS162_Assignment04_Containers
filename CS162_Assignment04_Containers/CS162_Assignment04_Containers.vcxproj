@@ -121,9 +121,9 @@
     <ClCompile Include="barbarian.cpp" />
     <ClCompile Include="blueMen.cpp" />
     <ClCompile Include="creature.cpp" />
+    <ClCompile Include="doubleNode.cpp" />
     <ClCompile Include="harryPotter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mainTest.cpp" />
     <ClCompile Include="medusa.cpp" />
     <ClCompile Include="vampire.cpp" />
   </ItemGroup>
@@ -131,6 +131,7 @@
     <ClInclude Include="barbarian.hpp" />
     <ClInclude Include="blueMen.hpp" />
     <ClInclude Include="creature.hpp" />
+    <ClInclude Include="doubleNode.hpp" />
     <ClInclude Include="harryPotter.hpp" />
     <ClInclude Include="medusa.hpp" />
     <ClInclude Include="vampire.hpp" />

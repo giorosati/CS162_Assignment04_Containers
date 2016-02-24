@@ -46,9 +46,9 @@ int HarryPotter::attack()
 ** Function: defend
 ** Description: Calculates the sum of two random generated numbers from 1-6,
 ** then subtracts this value from the opposing creature's attack value received.
-** If this result is greater than or equal to the current value of strength, and 
+** If this result is greater than or equal to the current value of strength, and
 ** deathCount is 0, strength is increased to 20.
-** If this result is less than the current value of strength, this value 
+** If this result is less than the current value of strength, this value
 ** is returned.
 ** The net value returned is never less than 0.
 ** Parameters: Opponents "incomming" damage as an int, death counter as int

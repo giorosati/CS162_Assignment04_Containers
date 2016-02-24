@@ -45,10 +45,10 @@ int BlueMen::attack()
 ** If strength is greater than 4 and less than 9, calculates the sum of two
 ** random generated numbers from 1-6, then adds 3 for armor, then subtracts
 ** the value of the opposing creature's attack value.
-** Description: If strength is less than 5, generates a random number 1-6, 
+** Description: If strength is less than 5, generates a random number 1-6,
 ** then adds 3 for defense, then subtracts the value of the opposing
-** creature's attack value. 
-** The net value calculated under one of these three scenatios is returned, 
+** creature's attack value.
+** The net value calculated under one of these three scenatios is returned,
 ** but no less than 0.
 ** Parameters: Opponents "incomming" damage as an int
 ** Pre-Conditions:	random number seed using time is called in main.cpp

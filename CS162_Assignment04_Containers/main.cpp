@@ -37,7 +37,7 @@ int main()
 	srand((unsigned)time(NULL));
 
 	//initialize variables for program exit, menu choice, # of creatures
-	int exitToggle = 1;
+	int exitToggle = 0;
 	int menuChoice1 = 6;
 	int menuChoice2 = 6;
 	int creatureCount = 0;
@@ -45,10 +45,10 @@ int main()
 	string creatureName2 = "";
 
 	//initialize linked lists for creature lineups
-	doubleNode* pOneCreatures = NULL;
-	doubleNode* pTwoCreatures = NULL;
-	doubleNode* pOneDeadPile = NULL;
-	doubleNode* pTwoDeadPile = NULL;
+	doubleNode* p1Head = NULL;
+	doubleNode* p2Head = NULL;
+	doubleNode* p1Dead = NULL;
+	doubleNode* p2Dead = NULL;
 
 	//initialize variables for two creatures   *********DO NOT USE
 	//Creature* creatureOne = NULL;
@@ -60,63 +60,78 @@ int main()
 	cin >> creatureCount;
 
 	//display menu
-	while (exitToggle != 0)
+	while (exitToggle != 1)
 	{
 		//get user selection for Creature #1
-		cout << "You will pick " << creatureCount << " for each Player 1 and 2." << endl;
-		cout << "You will pick the first creature for Player 1, then the first creature" << endl;
-		cout << "for Player 2. Then the second creature for Player 1, and so on..." << endl;
+		cout << "You will now pick " << creatureCount << " creature(s) for Player 1 and Player 2." << endl;
+		cout << "You will pick a creature for Player 1, then a creature for Player 2, then" << endl;
+		cout << "another creature for Player 1, then for Player 2, and so on until all creatures" << endl;
+		cout << "have been chosen." << endl;
 
 		for (int i = 0; i < creatureCount; i++)
-		{	
+		{
 			//display menu function
 			displayMenu();
-		
+
 			//get Player One creature
-			cout << "Enter your choice for Player 1's creature # " << i << ": ";
+			cout << "Enter your choice for Player 1's creature # " << i + 1 << ": ";
 			cin >> menuChoice1;
 			cout << "Enter a name for this creature: ";
-			cin >> creatureName1;
+			cin.ignore();
+			getline(cin, creatureName1);
 			cout << endl;
-			if (menuChoice1 == 0) { exitToggle = 0; }
-			if (exitToggle != 0)
+			if (menuChoice1 == 0) { exitToggle = 1; }
+			if (exitToggle != 1)
 			{
 				//get Player 2 creature
-				cout << "Enter your choice for Player 2's creature # " << i << ": ";
+				cout << "Enter your choice for Player 2's creature # " << i + 1 << ": ";
 				cin >> menuChoice2;
 				cout << "Enter a name for this creature: ";
-				cin >> creatureName1;
-				cout << endl;
-				if (menuChoice2 == 0) { exitToggle = 0; }
-			}
-			if (exitToggle != 0) //create the creatures   8*********start here
-			{
-
-			}
-
-
-			if (exitToggle != 0) //enter the battle if user has not chosen 0
-			{
-				creatureOne = createCreature(menuChoice1);	//create creature 1
-				creatureTwo = createCreature(menuChoice2);	//create creature 2
-
-				cout << "Creature One is " << creatureOne->getName() << endl;
-				cout << "Creature Two is " << creatureTwo->getName() << endl;
-				cout << endl;
-				cout << "*******************************************" << endl;
-				cout << endl;
-				cout << "The battle begins...press enter." << endl;
-				cout << endl;
 				cin.ignore();
-				cin.get();
+				getline(cin, creatureName2);
+				cout << endl;
+				if (menuChoice2 == 0) { exitToggle = 1; }
+			}
+			if (exitToggle != 1) //create the creatures
+			{
+				Creature* tempCreature1 = createCreature(menuChoice1);
+				Creature* tempCreature2 = createCreature(menuChoice2);
+				addNodeD(p1Head, tempCreature1, creatureName1);
+				addNodeD(p2Head, tempCreature2, creatureName2);
 			}
 		}
+		cout << "Creatures have been created..." << endl;
+		if (exitToggle != 1) //enter the battle if user has not chosen 0
+		{
+			cout << "Player 1 ceature lineup" << endl;
+			displayD(p1Head);
+			cout << endl;
+			cout << endl;
+			cout << "Player 2 ceature lineup" << endl;
+			displayD(p2Head);
+			cout << endl;
+			cout << endl;
 
+			cout << "*******************************************" << endl;
+			cout << endl;
+			cout << "The tournament begins...press enter." << endl;
+			cout << endl;
+			cin.clear();
+			cin.get();
+		}
+
+		//start tournament loop
+		while ((p1Head != NULL) && (p2Head != NULL))  //test if there are live creatures for each player
+		{
 			int attackRound = 0;		//attack rounds counter
 			int harryDeathsC1 = 0;		//death count for a Creature One Harry Potter
 			int harryDeathsC2 = 0;		//death count for a Creature Two Harry Potter
 
-										//attack loop
+			//get the next available creature from each stack
+			Creature* creatureOne = p1Head->creaturePointer;
+			Creature* creatureTwo = p2Head->creaturePointer;
+			cout << "test for stop" << endl;
+			//attack loop
 			while ((creatureOne->getStength() > 0) && (creatureTwo->getStength() > 0))
 			{
 				attackRound += 1;		//increment attack counter
@@ -219,27 +234,28 @@ int main()
 		//end of game/exit while loop
 		cout << endl;
 		cout << endl;
-		if (exitToggle != 0)
+		if (exitToggle != 1)
 		{
 			cout << "This battle is over...press enter to return to the menu";
 			cout << endl;
 			cout << endl;
 		}
+
 		//cin.ignore();
 		cin.clear();
 		cin.get();
-	}
-	cout << endl;
-	cout << endl;
-	cout << "Goodbye...";
-	cout << "*******************************************" << endl;
-	cout << "********************************" << endl;
-	cout << "***********************" << endl;
-	cout << "**************" << endl;
-	cout << "*****" << endl;
-	return 0;
-}
 
+		cout << endl;
+		cout << endl;
+		cout << "Goodbye...";
+		cout << "*******************************************" << endl;
+		cout << "********************************" << endl;
+		cout << "***********************" << endl;
+		cout << "**************" << endl;
+		cout << "*****" << endl;
+		return 0;
+	}
+}
 //display menu function
 void displayMenu()
 {
@@ -261,7 +277,7 @@ void displayMenu()
 }
 
 //create Creature switch
-Creature* createCreature(int menuChoice, string creatureName)
+Creature* createCreature(int menuChoice)
 {
 	switch (menuChoice)
 	{

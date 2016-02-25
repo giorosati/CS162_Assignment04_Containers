@@ -28,12 +28,13 @@ void displayD(doubleNode* &head)
 	{
 		cout << endl;
 		doubleNode* tempNode = head;
-		cout << "Creatures in the list Type of creature - Given name: " << endl;
-		cout << tempNode->creaturePointer->getName() << " - " << tempNode->creatureName << endl;	//outputs head nodes value
+		cout << "Creature  -  Name: " << endl;
+		cout << "-----------------------------" << endl;
+		cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creatureName << endl;	//outputs head nodes value
 		while (tempNode->next != NULL)
 		{
 			tempNode = tempNode->next;		//set tempNode to the next node
-			cout << tempNode->creaturePointer->getName() << " - " << tempNode->creatureName << endl;//outputs nodes after head 
+			cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creatureName << endl;//outputs nodes after head 
 		}
 		cout << endl;
 	}
@@ -67,7 +68,7 @@ void removeNodeD(doubleNode* &head)	//removes the last node, if any
 	if (head == NULL)
 	{
 		cout << "You cannot remove an element from an empty list!" << endl;
-		return -99;
+		//return -99;
 		cout << endl;
 	}
 	else

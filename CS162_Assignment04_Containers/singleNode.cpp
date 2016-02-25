@@ -59,7 +59,7 @@ void addNodeS(singleNode* &shead, Creature* creaturePointer)	//creates a node, a
 }
 
 
-void removeNodeS(singleNode* &shead)				//removes the last node and returns its data
+void removeNodeS(singleNode* &shead)				//removes the last node
 {
 	if (shead == NULL)
 	{

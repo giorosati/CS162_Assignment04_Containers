@@ -17,7 +17,6 @@ class BlueMen : public Creature
 protected:
 
 public:
-	//BlueMen();
 	BlueMen(int, string);
 	~BlueMen();
 
@@ -48,6 +47,16 @@ public:
 	** Post-Conditions: returns the net damage sustained by this creature
 	*********************************************************************/
 	int defend(int, int);
+
+	/*********************************************************************
+	** Function: heal
+	** Description: Adds 6 to strength, but never sets strength to more
+	** than 12. Returns the amount added to strength.
+	** Parameters: none
+	** Pre-Conditions:	creature strength is not zero
+	** Post-Conditions: increases creature strength by 6 up to a max of 12
+	*********************************************************************/
+	int heal();
 
 	string getName();
 };

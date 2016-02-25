@@ -11,8 +11,9 @@
 #include <string>
 #include <time.h>
 #include <cstdlib>
+#include <cstdbool>
 #include "doubleNode.hpp"
-#include "singleNode.hpp"
+//#include "singleNode.hpp"
 #include "creature.hpp"
 #include "medusa.hpp"
 #include "barbarian.hpp"
@@ -42,14 +43,15 @@ int main()
 	int menuChoice1 = 6;
 	int menuChoice2 = 6;
 	int creatureCount = 0;
+	int battleCount = 0;
 	string creatureName1 = "";
 	string creatureName2 = "";
 
 	//initialize linked lists for creature lineups
 	doubleNode* p1Head = NULL;
 	doubleNode* p2Head = NULL;
-	singleNode* p1Dead = NULL;
-	singleNode* p2Dead = NULL;
+	doubleNode* p1Dead = NULL;
+	doubleNode* p2Dead = NULL;
 
 	cout << "***** Creature Battle Tournament  *****" << endl;
 	cout << endl;
@@ -93,11 +95,11 @@ int main()
 			{
 				Creature* tempCreature1 = createCreature(menuChoice1, creatureName1);
 				Creature* tempCreature2 = createCreature(menuChoice2, creatureName2);
-				addNodeD(p1Head, tempCreature1);
-				addNodeD(p2Head, tempCreature2);
+				addNodeD(p1Head, tempCreature1);	//adds a node to the top of the player 1 linked list
+				addNodeD(p2Head, tempCreature2);	//adds a node to the top of the player 2 linked list
 			}
 		}
-		cout << "Creatures have been created..." << endl;
+		//cout << "Creatures have been created..." << endl;
 		if (exitToggle != 1) //enter the battle if user has not chosen 0
 		{
 			cout << "Player 1 ceature lineup" << endl;
@@ -118,22 +120,36 @@ int main()
 		}
 
 		//start tournament loop
-		while ((p1Head != NULL) && (p2Head != NULL))  //test if there are live creatures for each player
+		while ((p1Head != NULL) && (p2Head != NULL))  //test if live creatures exist for both players
 		{
-			int attackRound = 0;		//attack rounds counter
-			int harryDeathsC1 = 0;		//death count for a Creature One Harry Potter
-			int harryDeathsC2 = 0;		//death count for a Creature Two Harry Potter
+			battleCount += 1;
+			cout << "Getting the creatures for battle # " << battleCount << "..." << endl;
+			cout << endl;
 
-			//get the next creature from each que for battle
-			Creature* creatureOne = p1Head->creaturePointer;
-			Creature* creatureTwo = p2Head->creaturePointer;
+			bool creatureOneDeath = false;
+			bool creatureTwoDeath = false;
+			int attackRound = 0;		//attack rounds counter
+			int harryDeathsC1 = 0;		//death count for a player 1 Harry Potter
+			int harryDeathsC2 = 0;		//death count for a player 2 Harry Potter
+
+			//get the top creature from each linked list for a battle
+			Creature* creatureOne = NULL;
+			Creature* creatureTwo = NULL;
+			creatureOne = p1Head->creaturePointer;
+			creatureTwo = p2Head->creaturePointer;
 			//cout << "test for stop" << endl;
-			//attack loop
+			cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " will fight for Player One." << endl;
+			cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " will fight for Player Two." << endl;
+			cout << endl;
+			cout << "Press enter to start this battle." << endl;
+			cin.get();
+
+			//battle while loop for two creatures
 			while ((creatureOne->getStength() > 0) && (creatureTwo->getStength() > 0))
 			{
 				attackRound += 1;		//increment attack counter
 				cout << "*******************************************" << endl;
-				cout << "Battle round # " << attackRound << endl;
+				cout << "Creature attack round # " << attackRound << endl;
 
 				//creatureOne attack
 				cout << endl;
@@ -152,12 +168,6 @@ int main()
 						//kill sequence
 					{
 						creatureTwo->setStrength(0);		//kill creatureTwo except when Harry has been resurrected
-
-						//add creatureTwo to the dead stack for player 2
-						addNodeS(p2Dead, creatureTwo);
-
-						//removes the last node on player 2's queue
-						removeNodeD(p2Head);
 					}
 					else
 					{
@@ -179,14 +189,9 @@ int main()
 				if (creatureTwo->getStength() <= 0)  //case where creatureTwo dies
 				//kill sequence
 				{
+					creatureTwoDeath = true;
 					creatureTwo->setStrength(0);
 					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " has died..." << endl;
-
-					//add creatureTwo to the dead stack for player 2
-					addNodeS(p2Dead, creatureTwo);
-
-					//removes the last node on player 2's queue
-					removeNodeD(p2Head);
 				}
 				else
 				{
@@ -204,15 +209,9 @@ int main()
 					{
 						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " has used GLARE!" << endl;
 						if (!((harryDeathsC1 == 0) && (creatureOne->getStength() == 20)))
-						//kill sequence
+							//kill sequence
 						{
-							creatureOne->setStrength(0);		//kill opponent except when Harry has been resurrected
-
-							//add creatureOne to the dead stack for player 1
-							addNodeS(p1Dead, creatureOne);		
-
-							//removes the last node on player 1's queue
-							removeNodeD(p1Head);
+							creatureOne->setStrength(0);		//kill creatureOne except when Harry has been resurrected
 						}
 						else
 						{
@@ -234,25 +233,62 @@ int main()
 					if (creatureOne->getStength() <= 0)  //case where creature one dies
 					//kill sequence
 					{
+						creatureOneDeath = true;
 						creatureOne->setStrength(0);
 						cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " has died..." << endl;
-
-						//add creatureOne to the dead stack for player 1
-						addNodeS(p1Dead, creatureOne);
-
-						//removes the last node on player 1's queue
-						removeNodeD(p1Head);
 					}
+				} //exit point when a creature has died
+
+				cout << endl;
+				if (creatureOneDeath == true)
+				{
+					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " eliminated " << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << endl;
+					creatureTwo->addWinCount();
+					
+					//add creatureOne to the dead stack for player 1
+					addNodeD(p1Dead, creatureOne);
+					//removes the first node on player 1's queue
+					removeFirstNodeD(p1Head);
+					//move creatureTwo to the bottom of Player 2's queue
+					moveHeadToEnd(p2Head);
+
+					cout << endl;
+					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " had a strength of " << creatureTwo->getStength() << " at the end of the battle." << endl;
+					creatureTwo->heal();
+					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " will heal and have a strength of " << creatureTwo->getStength() << " before its next battle." << endl;
+					cout << endl;
 				}
-				cout << endl;
-				cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " strength is now: " << creatureOne->getStength() << endl;
-				cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " strength is now: " << creatureTwo->getStength() << endl;
-				cout << endl;
-				cout << "Battle round " << attackRound << " has ended." << endl;
-				cout << "*******************************************" << endl;
-				cout << endl;
+				if (creatureTwoDeath == true)
+				{
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " eliminated " << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << endl;
+					creatureOne->addWinCount();
+
+
+					//add creatureTwo to the end of the dead stack for player 2
+					addNodeD(p2Dead, creatureTwo);
+					//removes the first node on player 2's queue
+					removeFirstNodeD(p2Head);
+					//move creatureOne to the bottom of Player 1's queue
+					moveHeadToEnd(p1Head);
+
+					cout << endl;
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " had a strength of " << creatureOne->getStength() << " at the end of the battle." << endl;
+					creatureOne->heal();
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " will heal and have a strength of " << creatureOne->getStength() << " before its next battle." << endl;
+					cout << endl;
+				}
 				cout << "Press enter to continue...";
 				cin.get();
+			} //end of the two creature battle loop
+
+			if ((p1Head != NULL) && (p2Head != NULL))
+			{
+				cout << "Both players still have live creatures, on to the next battle..." << endl;
+				cout << "Press enter to continue." << endl;
+
+				cin.get();
+ 			}
+			else {exitToggle = 1;}
 			}
 		}
 
@@ -280,7 +316,7 @@ int main()
 		cout << "*****" << endl;
 		return 0;
 	}
-}
+
 //display menu function
 void displayMenu()
 {

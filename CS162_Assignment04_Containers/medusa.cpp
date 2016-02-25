@@ -59,6 +59,26 @@ int Medusa::defend(int damageIn, int x = 0)
 	if ((damageIn - roll) < 0) return 0;
 	else return (damageIn - roll);
 }
+
+/*********************************************************************
+** Function: heal
+** Description: Adds 4 to strength, but never sets strength to more
+** than 8. Returns the amount added to strength.
+** Parameters: none
+** Pre-Conditions:	creature strength is not zero
+** Post-Conditions: increases creature strength by 4 up to a max of 8
+*********************************************************************/
+int Medusa::heal()
+{
+	int heal = 0;
+	int maxHeal = 8 - strength;
+	if (maxHeal <= 4) heal = maxHeal;
+	else heal = 4;
+	strength = strength + heal;
+	return heal;
+}
+
+
 string Medusa::getName()
 {
 	return "Medusa";

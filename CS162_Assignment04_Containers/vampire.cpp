@@ -65,6 +65,25 @@ int Vampire::defend(int damageIn, int x = 0)
 	}
 }
 
+
+/*********************************************************************
+** Function: heal
+** Description: Adds 9 to strength, but never sets strength to more
+** than 18. Returns the amount added to strength.
+** Parameters: none
+** Pre-Conditions:	creature strength is not zero
+** Post-Conditions: increases creature strength by 9 up to a max of 18
+*********************************************************************/
+int Vampire::heal()
+{
+	int heal = 0;
+	int maxHeal = 18 - strength;
+	if (maxHeal <= 9) heal = maxHeal;
+	else heal = 9;
+	strength = strength + heal;
+	return heal;
+}
+
 string Vampire::getName()
 {
 	return "Vampire";

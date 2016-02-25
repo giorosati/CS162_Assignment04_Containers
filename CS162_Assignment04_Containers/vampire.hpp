@@ -44,6 +44,16 @@ public:
 	*********************************************************************/
 	int defend(int,int);
 
+	/*********************************************************************
+	** Function: heal
+	** Description: Adds 9 to strength, but never sets strength to more
+	** than 18. Returns the amount added to strength.
+	** Parameters: none
+	** Pre-Conditions:	creature strength is not zero
+	** Post-Conditions: increases creature strength by 9 up to a max of 18
+	*********************************************************************/
+	int heal();
+
 	string getName();
 };
 

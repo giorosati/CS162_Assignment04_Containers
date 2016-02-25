@@ -58,6 +58,24 @@ int Barbarian::defend(int damageIn, int x = 0)
 	else return (damageIn - roll);
 }
 
+/*********************************************************************
+** Function: heal
+** Description: Adds 6 to strength, but never sets strength to more
+** than 12. Returns the amount added to strength.
+** Parameters: none
+** Pre-Conditions:	creature strength is not zero
+** Post-Conditions: increases creature strength by 6 up to a max of 12
+*********************************************************************/
+int Barbarian::heal()
+{
+	int heal = 0;
+	int maxHeal = 12 - strength;
+	if (maxHeal <= 6) heal = maxHeal;
+	else heal = 6;
+	strength = strength + heal;
+	return heal;
+}
+
 string Barbarian::getName()
 {
 	return "Barbarian";

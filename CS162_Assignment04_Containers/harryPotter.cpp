@@ -67,6 +67,24 @@ int HarryPotter::defend(int damageIn, int deathCount)
 	else return (damageIn - roll);
 }
 
+/*********************************************************************
+** Function: heal
+** Description: Adds 5 to strength, but never sets strength to more
+** than 10. Returns the amount added to strength.
+** Parameters: none
+** Pre-Conditions:	creature strength is not zero
+** Post-Conditions: increases creature strength by 5 up to a max of 10
+*********************************************************************/
+int HarryPotter::heal()
+{
+	int heal = 0;
+	int maxHeal = 10 - strength;
+	if (maxHeal <= 5) heal = maxHeal;
+	else heal = 5;
+	strength = strength + heal;
+	return heal;
+}
+
 string HarryPotter::getName()
 {
 	return "Harry Potter";

@@ -19,9 +19,10 @@ Creature::Creature()
 {
 }
 
-Creature::Creature(int strengthIn)
+Creature::Creature(int strengthIn, string givenName)
 {
 	this->strength = strengthIn;
+	this->givenName = givenName;
 }
 
 Creature::~Creature()
@@ -32,9 +33,13 @@ Creature::~Creature()
 int Creature::getStength()
 {
 	return strength;
-};
+}
 
 void Creature::setStrength(int strengthIn)
 {
 	strength = strengthIn;
+}
+string Creature::getGivenName()  //get given name string
+{
+	return givenName;
 }

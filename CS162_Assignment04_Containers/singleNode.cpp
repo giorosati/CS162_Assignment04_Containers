@@ -1,13 +1,13 @@
 /*********************************************************************
-** Program Filename: doubleNode.cpp
+** Program Filename: singleNode.cpp
 ** Author: Giovanni Rosati
 ** email: rosatig@oregonstate.edu
 ** Date: 2016-02-24
-** Description: double linked node implementation file CS161_400 Assignment 4
+** Description: single linked node implementation file CS161_400 Assignment 4
 *********************************************************************/
 
 //includes
-#include "doubleNode.hpp"
+#include "singleNode.hpp"
 #include <cstdlib>
 #include <iostream>
 
@@ -16,10 +16,9 @@ using std::cout;
 using std::endl;
 using std::cin;
 
-
-void displayD(doubleNode* &head)
+void displayS(singleNode * &shead)
 {
-	if (head == NULL)
+	if (shead == NULL)
 	{
 		cout << "There are no items in the list." << endl;
 		cout << endl;
@@ -27,7 +26,7 @@ void displayD(doubleNode* &head)
 	else
 	{
 		cout << endl;
-		doubleNode* tempNode = head;
+		singleNode* tempNode = shead;
 		cout << "Creature  -  Name: " << endl;
 		cout << "-----------------------------" << endl;
 		cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creaturePointer->getGivenName() << endl;	//outputs head nodes data
@@ -36,57 +35,68 @@ void displayD(doubleNode* &head)
 			tempNode = tempNode->next;		//set tempNode to the next node
 			cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creaturePointer->getGivenName() << endl;//outputs nodes after head 
 		}
-		cout << endl;
 	}
 }
 
-void addNodeD(doubleNode* &head, Creature* creaturePointer)
+
+void addNodeS(singleNode* &shead, Creature* creaturePointer)	//creates a node, adds it to the end of the list
 {
-	if (head == NULL)		//case where no nodes exist
+	if (shead == NULL)		//case where no nodes exist
 	{
-		head = new doubleNode;
-		head->creaturePointer = creaturePointer;
-		head->prev = NULL;
-		head->next = NULL;
+		shead = new singleNode;
+		shead->creaturePointer = creaturePointer;
+		shead->next = NULL;
 		cout << endl;
 	}
 	else					//adds a node to the end of the list
 	{
-		doubleNode* lastNode = findLastD(head);
-		lastNode->next = new doubleNode;
-		lastNode->next->prev = lastNode;
+		singleNode* lastNode = findLastS(shead);
+		lastNode->next = new singleNode;
 		lastNode->next->creaturePointer = creaturePointer;
 		lastNode->next->next = NULL;
 		cout << endl;
 	}
 }
 
-void removeNodeD(doubleNode* &head)	//removes the last node, if any
+
+void removeNodeS(singleNode* &shead)				//removes the last node and returns its data
 {
-	if (head == NULL)
+	if (shead == NULL)
 	{
 		cout << "You cannot remove an element from an empty list!" << endl;
-		//return -99;
+		//return -999;
 		cout << endl;
 	}
 	else
 	{
-		doubleNode* lastNode = findLastD(head);	//find the last node
-		if (lastNode->prev == NULL) head = NULL;	//if it's the first node, set head to NULL
-		if (lastNode->prev != NULL)
+		singleNode* tempNode = shead;
+		if (tempNode->next == NULL)	//case where only one node exists
 		{
-			lastNode->prev->next = NULL;	//sets "next" on the second to last node to NULL
+			shead = NULL;
+			delete tempNode;
 		}
-		Creature* lastNodeCreaturePointer = lastNode->creaturePointer;
-		delete lastNode;					//deletes the last node
+		else if (tempNode->next->next == NULL)	//case where only two nodes exits
+		{
+			tempNode->next = NULL;
+			delete tempNode->next;
+		}
+		else
+		{
+			{
+				while (tempNode->next->next != NULL)
+					tempNode = tempNode->next;
+			}
+			tempNode->next = NULL;
+			delete tempNode->next;
+		}
 	}
 	cout << endl;
 }
 
 
-doubleNode* findLastD(doubleNode* &head)
+singleNode* findLastS(singleNode* &head)		//returns pointer to last node
 {
-	doubleNode* tempNode = head;
+	singleNode* tempNode = head;
 	while (tempNode->next != NULL)
 	{
 		tempNode = tempNode->next;

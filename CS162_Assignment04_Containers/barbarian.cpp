@@ -20,8 +20,8 @@ using std::endl;
 //	strength = 12;
 //}
 
-Barbarian::Barbarian(int strengthIn)
-	: Creature(strengthIn)
+Barbarian::Barbarian(int strengthIn, string givenName)
+	: Creature(strengthIn, givenName)
 {}
 
 Barbarian::~Barbarian()

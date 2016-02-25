@@ -20,8 +20,8 @@ using std::endl;
 //	strength = 0;
 //}
 
-HarryPotter::HarryPotter(int strengthIn)
-	: Creature(strengthIn)
+HarryPotter::HarryPotter(int strengthIn, string givenName)
+	: Creature(strengthIn, givenName)
 {}
 
 HarryPotter::~HarryPotter()

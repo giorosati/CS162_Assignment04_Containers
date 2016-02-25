@@ -18,7 +18,7 @@ protected:
 
 public:
 	//Barbarian();
-	Barbarian(int);
+	Barbarian(int, string);
 	~Barbarian();
 
 	/*********************************************************************

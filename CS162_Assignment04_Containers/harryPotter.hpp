@@ -18,7 +18,7 @@ protected:
 
 public:
 	//HarryPotter();
-	HarryPotter(int);
+	HarryPotter(int, string);
 	~HarryPotter();
 
 	/*********************************************************************

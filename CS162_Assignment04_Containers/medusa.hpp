@@ -18,7 +18,7 @@ protected:
 
 public:
 	//Medusa();
-	Medusa(int);
+	Medusa(int, string);
 	~Medusa();
 
 	/*********************************************************************

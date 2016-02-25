@@ -18,7 +18,7 @@ protected:
 
 public:
 	//Vampire();
-	Vampire(int);
+	Vampire(int, string);
 	~Vampire();
 
 	/*********************************************************************

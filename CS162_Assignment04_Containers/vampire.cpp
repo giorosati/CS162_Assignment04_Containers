@@ -16,8 +16,8 @@ using std::cout;
 using std::endl;
 
 
-Vampire::Vampire(int strengthIn)
-	: Creature(strengthIn)
+Vampire::Vampire(int strengthIn, string givenName)
+	: Creature(strengthIn, givenName)
 {}
 
 Vampire::~Vampire()

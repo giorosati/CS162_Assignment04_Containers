@@ -12,6 +12,7 @@
 #include <time.h>
 #include <cstdlib>
 #include "doubleNode.hpp"
+#include "singleNode.hpp"
 #include "creature.hpp"
 #include "medusa.hpp"
 #include "barbarian.hpp"
@@ -29,7 +30,7 @@ using std::string;
 
 //function prototypes
 void displayMenu();
-Creature* createCreature(int menuChoice);
+Creature* createCreature(int menuChoice, string givenName);
 
 int main()
 {
@@ -47,12 +48,8 @@ int main()
 	//initialize linked lists for creature lineups
 	doubleNode* p1Head = NULL;
 	doubleNode* p2Head = NULL;
-	doubleNode* p1Dead = NULL;
-	doubleNode* p2Dead = NULL;
-
-	//initialize variables for two creatures   *********DO NOT USE
-	//Creature* creatureOne = NULL;
-	//Creature* creatureTwo = NULL;
+	singleNode* p1Dead = NULL;
+	singleNode* p2Dead = NULL;
 
 	cout << "***** Creature Battle Tournament  *****" << endl;
 	cout << endl;
@@ -94,10 +91,10 @@ int main()
 			}
 			if (exitToggle != 1) //create the creatures
 			{
-				Creature* tempCreature1 = createCreature(menuChoice1);
-				Creature* tempCreature2 = createCreature(menuChoice2);
-				addNodeD(p1Head, tempCreature1, creatureName1);
-				addNodeD(p2Head, tempCreature2, creatureName2);
+				Creature* tempCreature1 = createCreature(menuChoice1, creatureName1);
+				Creature* tempCreature2 = createCreature(menuChoice2, creatureName2);
+				addNodeD(p1Head, tempCreature1);
+				addNodeD(p2Head, tempCreature2);
 			}
 		}
 		cout << "Creatures have been created..." << endl;
@@ -127,10 +124,10 @@ int main()
 			int harryDeathsC1 = 0;		//death count for a Creature One Harry Potter
 			int harryDeathsC2 = 0;		//death count for a Creature Two Harry Potter
 
-			//get the next available creature from each stack
+			//get the next creature from each que for battle
 			Creature* creatureOne = p1Head->creaturePointer;
 			Creature* creatureTwo = p2Head->creaturePointer;
-			cout << "test for stop" << endl;
+			//cout << "test for stop" << endl;
 			//attack loop
 			while ((creatureOne->getStength() > 0) && (creatureTwo->getStength() > 0))
 			{
@@ -144,38 +141,52 @@ int main()
 				int netDamage = creatureTwo->defend(tempDamage, harryDeathsC2);
 				if (netDamage == 200)	//test for vampire charm
 				{
-					cout << "Vampire (Creature 2) has used CHARM!" << endl;
-					cout << creatureOne->getName() << " (Creature 1) was unable to attack." << endl;
+					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " has used CHARM!" << endl;
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " was unable to attack." << endl;
 					cout << endl;
 				}
 				else if (tempDamage == 100) //test if Medusa used glare
 				{
-					cout << "Medusa (Creature 1) has used GLARE!" << endl;
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " has used GLARE!" << endl;
 					if (!((harryDeathsC2 == 0) && (creatureTwo->getStength() == 20)))
+						//kill sequence
 					{
-						creatureTwo->setStrength(0);		//kill opponent except when Harry has been resurrected
+						creatureTwo->setStrength(0);		//kill creatureTwo except when Harry has been resurrected
+
+						//add creatureTwo to the dead stack for player 2
+						addNodeS(p2Dead, creatureTwo);
+
+						//removes the last node on player 2's queue
+						removeNodeD(p2Head);
 					}
 					else
 					{
 						harryDeathsC2 += 1;
-						cout << "Harry Potter (Creature 2) died but has been resurrected." << endl;
+						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << "died but has been resurrected." << endl;
 					}
 				}
 				else
 				{
-					cout << creatureOne->getName() << " (Creature 1) caused " << netDamage << " point(s) of damage!" << endl;
+					cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " caused " << netDamage << " point(s) of damage!" << endl;
 					if ((harryDeathsC2 == 0) && (creatureTwo->getStength() == 20))
 					{
 						harryDeathsC2 += 1;
-						cout << "Harry Potter (Creature 2) died but has been resurrected." << endl;
+						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " died but has been resurrected." << endl;
 					}
 					else creatureTwo->setStrength(creatureTwo->getStength() - netDamage);
 				}
 
 				if (creatureTwo->getStength() <= 0)  //case where creatureTwo dies
+				//kill sequence
 				{
 					creatureTwo->setStrength(0);
-					cout << creatureTwo->getName() << " (Creature 2) has died..." << endl;
+					cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " has died..." << endl;
+
+					//add creatureTwo to the dead stack for player 2
+					addNodeS(p2Dead, creatureTwo);
+
+					//removes the last node on player 2's queue
+					removeNodeD(p2Head);
 				}
 				else
 				{
@@ -185,43 +196,57 @@ int main()
 					int netDamage = creatureOne->defend(tempDamage, harryDeathsC1);
 					if (netDamage == 200)	//test for vampire charm
 					{
-						cout << "Vampire (Creature 1) has used CHARM!" << endl;
-						cout << creatureTwo->getName() << " (Creature 2) was unable to attack." << endl;
+						cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " has used CHARM!" << endl;
+						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " was unable to attack." << endl;
 						cout << endl;
 					}
 					else if (tempDamage == 100) //test if Medusa used glare
 					{
-						cout << "Medusa (Creature 2) has used GLARE!" << endl;
+						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " has used GLARE!" << endl;
 						if (!((harryDeathsC1 == 0) && (creatureOne->getStength() == 20)))
+						//kill sequence
 						{
 							creatureOne->setStrength(0);		//kill opponent except when Harry has been resurrected
+
+							//add creatureOne to the dead stack for player 1
+							addNodeS(p1Dead, creatureOne);		
+
+							//removes the last node on player 1's queue
+							removeNodeD(p1Head);
 						}
 						else
 						{
 							harryDeathsC1 += 1;
-							cout << "Harry Potter (Creature 1) died but has been resurrected." << endl;
+							cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " died but has been resurrected." << endl;
 						}
 					}
 					else
 					{
-						cout << creatureTwo->getName() << " (Creature 2) caused " << netDamage << " point(s) of damage!" << endl;
+						cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " caused " << netDamage << " point(s) of damage!" << endl;
 						if ((harryDeathsC1 == 0) && (creatureOne->getStength() == 20))
 						{
 							harryDeathsC1 += 1;
-							cout << "Harry Potter (Creature 1) died but has been resurrected." << endl;
+							cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " died but has been resurrected." << endl;
 						}
 						else creatureOne->setStrength(creatureOne->getStength() - netDamage);
 					}
 
 					if (creatureOne->getStength() <= 0)  //case where creature one dies
+					//kill sequence
 					{
 						creatureOne->setStrength(0);
-						cout << creatureOne->getName() << " (Creature 1) has died..." << endl;
+						cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " has died..." << endl;
+
+						//add creatureOne to the dead stack for player 1
+						addNodeS(p1Dead, creatureOne);
+
+						//removes the last node on player 1's queue
+						removeNodeD(p1Head);
 					}
 				}
 				cout << endl;
-				cout << creatureOne->getName() << " (Creature 1) strength is now: " << creatureOne->getStength() << endl;
-				cout << creatureTwo->getName() << " (Creature 2) strength is now: " << creatureTwo->getStength() << endl;
+				cout << creatureOne->getGivenName() << " (" << creatureOne->getName() << ")" << " strength is now: " << creatureOne->getStength() << endl;
+				cout << creatureTwo->getGivenName() << " (" << creatureTwo->getName() << ")" << " strength is now: " << creatureTwo->getStength() << endl;
 				cout << endl;
 				cout << "Battle round " << attackRound << " has ended." << endl;
 				cout << "*******************************************" << endl;
@@ -277,33 +302,33 @@ void displayMenu()
 }
 
 //create Creature switch
-Creature* createCreature(int menuChoice)
+Creature* createCreature(int menuChoice, string creatureName)
 {
 	switch (menuChoice)
 	{
 	case 1:	//medusa
 	{
-		Creature* creatureOut = new Medusa(8);
+		Creature* creatureOut = new Medusa(8, creatureName);
 		return creatureOut;
 	}
 	case 2:	//barbarian
 	{
-		Creature* creatureOut = new Barbarian(12);
+		Creature* creatureOut = new Barbarian(12, creatureName);
 		return creatureOut;
 	}
 	case 3: //vampire
 	{
-		Creature* creatureOut = new Vampire(18);
+		Creature* creatureOut = new Vampire(18, creatureName);
 		return creatureOut;
 	}
 	case 4:	//blue men
 	{
-		Creature* creatureOut = new BlueMen(12);
+		Creature* creatureOut = new BlueMen(12, creatureName);
 		return creatureOut;
 	}
 	case 5:	//harry potter
 	{
-		Creature* creatureOut = new HarryPotter(10);
+		Creature* creatureOut = new HarryPotter(10, creatureName);
 		return creatureOut;
 	}
 	} //end switch for create Creature

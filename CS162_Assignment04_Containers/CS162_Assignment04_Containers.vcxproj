@@ -125,6 +125,7 @@
     <ClCompile Include="harryPotter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="medusa.cpp" />
+    <ClCompile Include="singleNode.cpp" />
     <ClCompile Include="vampire.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     <ClInclude Include="doubleNode.hpp" />
     <ClInclude Include="harryPotter.hpp" />
     <ClInclude Include="medusa.hpp" />
+    <ClInclude Include="singleNode.hpp" />
     <ClInclude Include="vampire.hpp" />
   </ItemGroup>
   <ItemGroup>

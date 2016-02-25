@@ -20,8 +20,8 @@ using std::endl;
 //	strength = 0;
 //}
 
-Medusa::Medusa(int strengthIn)
-	: Creature(strengthIn)
+Medusa::Medusa(int strengthIn, string givenName)
+	: Creature(strengthIn, givenName)
 {}
 
 Medusa::~Medusa()

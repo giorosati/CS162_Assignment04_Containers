@@ -18,7 +18,7 @@ protected:
 
 public:
 	//BlueMen();
-	BlueMen(int);
+	BlueMen(int, string);
 	~BlueMen();
 
 	/*********************************************************************

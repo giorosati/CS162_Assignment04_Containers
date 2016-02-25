@@ -15,8 +15,8 @@
 using std::cout;
 using std::endl;
 
-BlueMen::BlueMen(int strengthIn)
-	: Creature(strengthIn)
+BlueMen::BlueMen(int strengthIn, string givenName)
+	: Creature(strengthIn, givenName)
 {}
 
 BlueMen::~BlueMen()

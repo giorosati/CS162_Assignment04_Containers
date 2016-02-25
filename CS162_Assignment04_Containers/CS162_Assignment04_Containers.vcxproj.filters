@@ -39,6 +39,9 @@
     <ClCompile Include="doubleNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="singleNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="barbarian.hpp">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="doubleNode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="singleNode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

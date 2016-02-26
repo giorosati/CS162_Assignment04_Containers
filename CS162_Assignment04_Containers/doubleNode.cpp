@@ -39,6 +39,29 @@ void displayD(doubleNode* &head)
 	}
 }
 
+void displayWins(doubleNode* &head)
+{
+	if (head == NULL)
+	{
+		cout << "None." << endl;
+		cout << endl;
+	}
+	else
+	{
+		cout << endl;
+		doubleNode* tempNode = head;
+		cout << "Creature   - # Wins  -  Name  -   " << endl;
+		cout << "--------------------------------------" << endl;
+		cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creaturePointer->getWinCount() << " - " << tempNode->creaturePointer->getGivenName() << endl;	//outputs head nodes data
+		while (tempNode->next != NULL)
+		{
+			tempNode = tempNode->next;		//set tempNode to the next node
+			cout << tempNode->creaturePointer->getName() << "  -  " << tempNode->creaturePointer->getWinCount() << " - " << tempNode->creaturePointer->getGivenName() << endl;//outputs nodes after head
+		}
+		cout << endl;
+	}
+}
+
 void addNodeD(doubleNode* &head, Creature* creaturePointer)
 {
 	if (head == NULL)		//case where no nodes exist
@@ -70,12 +93,19 @@ void removeFirstNodeD(doubleNode* &head) //removes the first node, DOES NOT DELE
 	}
 	else
 	{
-		doubleNode* tempNode = head;
-		head = head->next;
-		//head->creaturePointer = tempNode->creaturePointer;
-		//head->prev = NULL;
-		//head->next = tempNode->next;
-		delete tempNode;
+		if (head->next == NULL)		//case where only one node
+		{
+			doubleNode* tempNode = head;
+			head = NULL;
+			delete tempNode;
+		}
+		else
+		{
+			doubleNode* tempNode = head;
+			head = head->next;
+			head->prev = NULL;
+			delete tempNode;
+		}
 	}
 	cout << endl;
 }
@@ -102,14 +132,32 @@ void removeNodeD(doubleNode* &head)	//removes the last node, if any
 	cout << endl;
 }
 
-void moveHeadToEnd(doubleNode* &head)	//moves the head node to the end of the list
+void moveHeadToEnd(doubleNode* &head)			//moves the head node to the end of the list
 {
-	if (head->next == NULL) return;			//do nothing if only one node in the list
-	doubleNode* tempNode = head;			//put head in a temporary node
-	head = head->next;
-	doubleNode* lastNode = findLastD(head);	//find the last node
-	lastNode->next = tempNode;				//make last node next point to prior head
-	delete tempNode;
+
+	if (head->next == NULL) return;				//do nothing if only one node in the list
+	else
+	{
+		doubleNode* tempNode;
+		tempNode = head;						//put head in a temporary node
+		doubleNode* lastNode = findLastD(head);	//find the last node
+		head = head->next;						//make node #2 head
+		head->prev = NULL;
+		if (head->next == NULL)					//case where there was only two nodes
+		{
+			tempNode->prev = head;
+			head->next = tempNode;
+			head->next->next = NULL;
+			cout << endl;
+		}
+		else
+		{
+			tempNode->prev = lastNode;
+			lastNode->next = tempNode;				//make last node next point to the prior head
+			lastNode->next->next = NULL;
+			cout << endl;
+		}
+	}
 }
 
 doubleNode* findLastD(doubleNode* &head)

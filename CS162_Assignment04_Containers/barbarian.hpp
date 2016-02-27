@@ -49,9 +49,9 @@ public:
 	** Pre-Conditions:	creature strength is not zero
 	** Post-Conditions: increases creature strength by 6 up to a max of 12
 	*********************************************************************/
-	int Barbarian::heal();
+	int heal();
 
-	string getName();
+	string getName();  //returns the creature's type
 };
 
 #endif

@@ -20,7 +20,9 @@ class Creature
 {
 protected:
 	int strength;
+	int battleCount;
 	int winCount;
+	int prestige;
 	string givenName;
 
 public:
@@ -33,9 +35,13 @@ public:
 	virtual string getName() = 0;	//displayName function prototype
 	int getStength();				//getter for strength
 	void setStrength(int);			//setter for strength
-	int Creature::getWinCount();		//getter for winCount
-	void Creature::addWinCount();	//adds 1 to winCount
+	int getWinCount();		//getter for winCount
+	void addWinCount();	//adds 1 to winCount
 	string getGivenName();  //get given name string
+	int getBattleCount();
+	void addBattleCount();
+	int getPrestige();
+	void addPrestige(int);
 };
 
 #endif

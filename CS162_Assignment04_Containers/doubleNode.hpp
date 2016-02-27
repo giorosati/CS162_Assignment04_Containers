@@ -21,9 +21,11 @@ struct doubleNode
 void displayD(doubleNode* &head);		//displays the list to the console
 void displayWins(doubleNode* &head);		//displays list with the # of wins
 void addNodeD(doubleNode* &head, Creature* creaturePointer);	//creates a node, adds it to the end of the list
-void removeFirstNodeD(doubleNode* &head); //removes the first node  ***NOT WORKING PROPERLY
+void addNodeTop(doubleNode* &head, Creature* creaturePointer);	//creates a node, adds it to the top of the list
+void removeFirstNodeD(doubleNode* &head); //removes the first node
 void moveHeadToEnd(doubleNode* &head);	//moves the head node to the end of the list
 void removeNodeD(doubleNode* &head);			//removes the last node
-doubleNode* findLastD(doubleNode* &head);
+void prestigeSort(doubleNode* &head);		//sort list based on wins and prestige, displays the list of award winners
+doubleNode* findLastD(doubleNode* &head);	//finds the last node in the list
 
 #endif

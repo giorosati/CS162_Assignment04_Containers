@@ -11,9 +11,7 @@
 #include <string>
 #include <time.h>
 #include <cstdlib>
-#include <cstdbool>
 #include "doubleNode.hpp"
-//#include "singleNode.hpp"
 #include "creature.hpp"
 #include "medusa.hpp"
 #include "barbarian.hpp"
@@ -43,7 +41,7 @@ int main()
 	int menuChoice1 = 6;
 	int menuChoice2 = 6;
 	int creatureCount = 0;
-	int battleCount = 0;
+	int battleRoundCount = 0;
 	string creatureName1 = "";
 	string creatureName2 = "";
 
@@ -53,7 +51,7 @@ int main()
 	doubleNode* p1Dead = NULL;
 	doubleNode* p2Dead = NULL;
 
-	bool testSwitch = true;
+	bool testSwitch = false;  //used to automatically create creatures during testing
 	if (!testSwitch)
 	{
 		cout << "***** Creature Battle Tournament  *****" << endl;
@@ -112,11 +110,31 @@ int main()
 			addNodeD(p1Head, tempCreature1);
 			addNodeD(p2Head, tempCreature2);
 			tempCreature1 = createCreature(3, "Vampire #1");
-			tempCreature2 = createCreature(1, "Medusa #1");
+			tempCreature2 = createCreature(3, "Vampire #2");
 			addNodeD(p1Head, tempCreature1);
 			addNodeD(p2Head, tempCreature2);
 			tempCreature1 = createCreature(5, "Harry Potter #1");
-			tempCreature2 = createCreature(2, "Barbarian #1");
+			tempCreature2 = createCreature(5, "Harry Potter #2");
+			addNodeD(p1Head, tempCreature1);
+			addNodeD(p2Head, tempCreature2);
+			tempCreature1 = createCreature(5, "Harry Potter #3");
+			tempCreature2 = createCreature(5, "Harry Potter #4");
+			addNodeD(p1Head, tempCreature1);
+			addNodeD(p2Head, tempCreature2);
+			tempCreature1 = createCreature(2, "Barbarian #1");
+			tempCreature2 = createCreature(2, "Barbarian #2");
+			addNodeD(p1Head, tempCreature1);
+			addNodeD(p2Head, tempCreature2);
+			tempCreature1 = createCreature(1, "Medusa #1");
+			tempCreature2 = createCreature(1, "Medusa #2");
+			addNodeD(p1Head, tempCreature1);
+			addNodeD(p2Head, tempCreature2);
+			tempCreature1 = createCreature(4, "Blue Men #3");
+			tempCreature2 = createCreature(4, "Blue Men #4");
+			addNodeD(p1Head, tempCreature1);
+			addNodeD(p2Head, tempCreature2);
+			tempCreature1 = createCreature(3, "Vampire #3");
+			tempCreature2 = createCreature(3, "Vampire #4");
 			addNodeD(p1Head, tempCreature1);
 			addNodeD(p2Head, tempCreature2);
 		}
@@ -144,8 +162,8 @@ int main()
 		//start tournament loop
 		while ((p1Head != NULL) && (p2Head != NULL))  //test if live creatures exist for both players
 		{
-			battleCount += 1;
-			cout << "Getting the creatures for battle # " << battleCount << "..." << endl;
+			battleRoundCount += 1;
+			cout << "Getting the creatures for battle # " << battleRoundCount << "..." << endl;
 			cout << endl;
 
 			bool creatureOneDeath = false;
@@ -165,6 +183,10 @@ int main()
 			cout << endl;
 			cout << "Press enter to start this battle." << endl;
 			cin.get();
+
+			//increment each creatures battles fought counter
+			creatureOne->addBattleCount();
+			creatureTwo->addBattleCount();
 
 			//battle while loop for two creatures
 			while ((creatureOne->getStength() > 0) && (creatureTwo->getStength() > 0))
@@ -268,7 +290,7 @@ int main()
 					creatureTwo->addWinCount();
 
 					//add creatureOne to the dead stack for player 1
-					addNodeD(p1Dead, creatureOne);
+					addNodeTop(p1Dead, creatureOne);
 					//delete the node for creatureOne on player 1's linked list
 					removeFirstNodeD(p1Head);
 					//move creatureTwo to the bottom of Player 2's queue
@@ -286,7 +308,7 @@ int main()
 					creatureOne->addWinCount();
 
 					//add creatureTwo to the end of the dead stack for player 2
-					addNodeD(p2Dead, creatureTwo);
+					addNodeTop(p2Dead, creatureTwo);
 					//removes the first node on player 2's queue
 					removeFirstNodeD(p2Head);
 					//move creatureOne to the bottom of Player 1's queue
@@ -302,6 +324,10 @@ int main()
 				//cin.get();
 			} //end of the two creature battle loop
 
+			//add the number of rounds fought to each creature's prestige 
+			creatureOne->addPrestige(attackRound);
+			creatureTwo->addPrestige(attackRound);
+
 			if ((p1Head != NULL) && (p2Head != NULL))
 			{
 				cout << "Both players still have live creatures, on to the next battle..." << endl;
@@ -316,38 +342,44 @@ int main()
 	//end of game/exit while loop
 	cout << endl;
 	cout << endl;
-	cout << "This tournament is over";
-	cout << endl;
 	if (p1Head != NULL)		//case where Player 1 wins
 	{
-		cout << "Player One has won the tournament" << endl;
+		cout << "Player One has won the tournament!" << endl;
 		cout << endl;
 		cout << "Player One ended the tournament with the following creatures still alive:" << endl;
 		displayWins(p1Head);
+		cout << endl;
+		prestigeSort(p1Head);
 		cout << endl;
 		cout << endl;
 	}
 	else
 	{
-		cout << "Player Two has won the tournament" << endl;
+		cout << "Player Two has won the tournament!" << endl;
 		cout << endl;
 		cout << "Player Two ended the tournament with the following creatures still alive:" << endl;
 		displayWins(p2Head);
 		cout << endl;
+		prestigeSort(p2Head);
+		cout << endl;
 		cout << endl;
 	}
+	cin.clear();
+	cout << "Press enter to continue." << endl;
+	cin.get();
 
-	cout << "Player One lost the follwoing creatures in battle:" << endl;
+	cout << "Player One lost the follwoing creatures in battle (by time since death, top = most recent)" << endl;
 	displayWins(p1Dead);
 	cout << endl;
 	cout << endl;
-	cout << "Player Two lost the follwoing creatures in battle:" << endl;
+	cout << "Player Two lost the follwoing creatures in battle (by time since death, top = most recent)" << endl;
 	displayWins(p2Dead);
 	cout << endl;
 	cout << endl;
 
 	//cin.ignore();
 	cin.clear();
+	cout << "Press enter to exit." << endl;
 	cin.get();
 
 	cout << endl;

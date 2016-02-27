@@ -22,7 +22,9 @@ Creature::Creature()
 Creature::Creature(int strengthIn, string givenName)
 {
 	this->strength = strengthIn;
+	this->battleCount = 0;
 	this->winCount = 0;
+	this->prestige = 0;
 	this->givenName = givenName;
 }
 
@@ -53,4 +55,24 @@ void Creature::addWinCount()
 string Creature::getGivenName()  //get given name string
 {
 	return givenName;
+}
+
+int Creature::getBattleCount()
+{
+	return battleCount;
+}
+
+void Creature::addBattleCount()
+{
+	battleCount += 1;
+}
+
+int Creature::getPrestige()
+{
+	return prestige;
+}
+
+void Creature::addPrestige(int prestigeIn)
+{
+	prestige = prestige + prestigeIn;
 }

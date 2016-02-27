@@ -77,12 +77,16 @@ int HarryPotter::defend(int damageIn, int deathCount)
 *********************************************************************/
 int HarryPotter::heal()
 {
-	int heal = 0;
-	int maxHeal = 10 - strength;
-	if (maxHeal <= 5) heal = maxHeal;
-	else heal = 5;
-	strength = strength + heal;
-	return heal;
+	if (strength <= 10)
+	{
+		int heal = 0;
+		int maxHeal = 10 - strength;
+		if (maxHeal <= 5) heal = maxHeal;
+		else heal = 5;
+		strength = strength + heal;
+		return heal;
+	}
+	else return 0;
 }
 
 string HarryPotter::getName()

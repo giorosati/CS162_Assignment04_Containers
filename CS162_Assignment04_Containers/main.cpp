@@ -103,7 +103,7 @@ int main()
 				}
 			}
 		}
-		else	//create creatures for testing
+		else	//scenario two - create creatures for testing
 		{
 			Creature* tempCreature1 = createCreature(4, "Blue Men #1");
 			Creature* tempCreature2 = createCreature(4, "Blue Men #2");
